@@ -1,0 +1,105 @@
+"use client";
+
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { AlertModal } from "@/components/modals/alert-modal";
+
+import { DepartmentColumn } from "./columns";
+import {
+  CopyIcon,
+  DotsHorizontalIcon,
+  Pencil1Icon,
+  TrashIcon,
+} from "@radix-ui/react-icons";
+import { useToast } from "@/components/ui/use-toast";
+import { useDeleteDepartmentMutation } from "../departmentsApiSlice";
+
+interface CellActionProps {
+  data: DepartmentColumn;
+}
+
+export const CellAction: React.FC<CellActionProps> = ({ data }) => {
+  // const router = useRouter();
+  // const params = useParams();
+  const navigate = useNavigate();
+
+  const [
+    deleteDepartment,
+    // { isSuccess: isDeleteSuccess, isError: isDeleteError, error: deleteError },
+  ] = useDeleteDepartmentMutation();
+
+  const { toast } = useToast();
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const onConfirm = async () => {
+    try {
+      const deleteResponse = await deleteDepartment({ id: data.id });
+      console.log(deleteResponse);
+      if (deleteResponse.error) {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: `Error: ${deleteResponse.error.data.message}`,
+        });
+      } else {
+        // If response.error is not set, it was a success
+        // console.log("response in submit", response);
+        toast({
+          title: "Success",
+          description: deleteResponse.data,
+        });
+        setOpen(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onCopy = (id: string) => {
+    navigator.clipboard.writeText(id);
+  };
+
+  return (
+    <>
+      <AlertModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={onConfirm}
+        loading={loading}
+      />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <DotsHorizontalIcon className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuItem onClick={() => onCopy(data.id)}>
+            <CopyIcon className="mr-2 h-4 w-4" /> Copy Id
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              navigate(`/dash/departments/${data.id}`);
+            }}
+          >
+            <Pencil1Icon className="mr-2 h-4 w-4" /> Update
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setOpen(true)}>
+            <TrashIcon className="mr-2 h-4 w-4" /> Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
+  );
+};
