@@ -10,8 +10,8 @@ export interface Phase {
   id: string;
   _id: string;
   phaseName: string;
-  phaseDetails: string;
-  phaseStatus: boolean;
+  phaseDescription: string;
+
 }
 
 const phasesAdapter = createEntityAdapter<Phase>({});
@@ -70,7 +70,7 @@ export const phasesApiSlice = apiSlice.injectEndpoints({
           ...initialPhaseData,
         },
       }),
-      invalidatesTags: (result, error, arg) => [
+      invalidatesTags: (_result, _error, arg) => [
         { type: "Phase", id: arg.id },
       ],
     }),
@@ -80,7 +80,7 @@ export const phasesApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
         body: { id },
       }),
-      invalidatesTags: (result, error, arg) => [
+      invalidatesTags: (_result, _error, arg) => [
         { type: "Phase", id: arg.id },
       ],
     }),

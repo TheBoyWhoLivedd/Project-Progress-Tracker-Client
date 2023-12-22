@@ -22,15 +22,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation} from "react-router-dom";
 import { cn } from "@/lib/utils";
 import useAuth from "@/hooks/useAuth";
 
 export const SidebarRoutes = () => {
-  const { username, status } = useAuth();
+  const {  status } = useAuth();
   const isAdmin = status === "Admin";
   const userRole = status;
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { pathname } = useLocation();
   type RouteType = {
     title: string;

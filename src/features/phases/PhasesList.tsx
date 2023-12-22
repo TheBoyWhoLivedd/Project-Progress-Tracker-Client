@@ -1,6 +1,5 @@
 import { PhasesClient } from "./components/client";
 import { useGetPhasesQuery } from "./phasesApiSlice";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const PhasesList = () => {
   const {

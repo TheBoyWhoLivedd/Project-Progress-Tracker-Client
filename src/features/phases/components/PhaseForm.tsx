@@ -79,7 +79,7 @@ const PhaseForm: React.FC<PhaseFormProps> = ({ initialData }) => {
   const { toast } = useToast();
 
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
 
   const title = initialData ? "Edit Phases" : "Add Phases";
   const description = initialData ? "Edit a Phase." : "Add a new Phase";
@@ -115,13 +115,16 @@ const PhaseForm: React.FC<PhaseFormProps> = ({ initialData }) => {
           description: response.message,
         });
         navigate("/dash/phases");
-      } catch (error: any) {
+      } catch (error) {
         // console.log("Error in submit", error);
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: `Error: ${error.data.message}`,
-        });
+        if (typeof error === "object" && error !== null && "data" in error) {
+          const errorResponse = error as ErrorResponse;
+          toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: `Error: ${errorResponse.data.message}`,
+          });
+        }
       }
     } else {
       // console.log("Data for edit", data);
@@ -138,13 +141,20 @@ const PhaseForm: React.FC<PhaseFormProps> = ({ initialData }) => {
           description: updateResponse.message,
         });
         navigate("/dash/phases");
-      } catch (updateError: any) {
+      } catch (updateError) {
         // console.log("Update Error", updateError);
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: `Error: ${updateError.data.message}`,
-        });
+        if (
+          typeof updateError === "object" &&
+          updateError !== null &&
+          "data" in updateError
+        ) {
+          const errorResponse = updateError as ErrorResponse;
+          toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: `Error: ${errorResponse.data.message}`,
+          });
+        }
       }
     }
   };
@@ -159,13 +169,16 @@ const PhaseForm: React.FC<PhaseFormProps> = ({ initialData }) => {
         });
         navigate("/dash/phases");
       }
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: `Error: ${error.data.message}`,
-      });
+      if (typeof error === "object" && error !== null && "data" in error) {
+        const errorResponse = error as ErrorResponse;
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: `Error: ${errorResponse.data.message}`,
+        });
+      }
     }
   };
   return (

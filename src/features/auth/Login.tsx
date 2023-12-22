@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import * as z from "zod";
 import {
   Card,
@@ -76,33 +76,8 @@ export default function Login() {
         variant: "default",
       });
       navigate("/dash");
-    } catch (error: any) {
-      if (!error.status) {
-        toast({
-          title: "Error",
-          description: "No Server Response",
-          variant: "destructive",
-        });
-      } else if (error.status === 400) {
-        toast({
-          title: "Error",
-          description: "Missing Username or Password",
-          variant: "destructive",
-        });
-      } else if (error.status === 401) {
-        toast({
-          title: "Error",
-          description: "Unauthorized",
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: error.message || "An error occurred",
-          variant: "destructive",
-        });
-      }
-      //console.log(error);
+    } catch (error) {
+      console.log(error);
     } finally {
       setIsLoading(false);
     }

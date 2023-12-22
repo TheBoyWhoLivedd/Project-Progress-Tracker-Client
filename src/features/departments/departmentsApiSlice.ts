@@ -70,7 +70,7 @@ export const departmentsApiSlice = apiSlice.injectEndpoints({
           ...initialDepartmentData,
         },
       }),
-      invalidatesTags: (result, error, arg) => [
+      invalidatesTags: (_result, _error, arg) => [
         { type: "Department", id: arg.id },
       ],
     }),
@@ -80,7 +80,7 @@ export const departmentsApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
         body: { id },
       }),
-      invalidatesTags: (result, error, arg) => [
+      invalidatesTags: (_result, _error, arg) => [
         { type: "Department", id: arg.id },
       ],
     }),

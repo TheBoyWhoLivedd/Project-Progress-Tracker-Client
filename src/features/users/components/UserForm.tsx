@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import * as z from "zod";
 import {
@@ -93,7 +92,7 @@ const UserForm: React.FC<UserFormProps> = ({ initialData, departments }) => {
   const { toast } = useToast();
 
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const department = departments.find(
     (dep) => dep.id === initialData?.departmentId
   );
@@ -131,20 +130,23 @@ const UserForm: React.FC<UserFormProps> = ({ initialData, departments }) => {
           description: response.message,
         });
         navigate("/dash/users");
-      } catch (error: any) {
+      } catch (error) {
         // conso le.log("Error in submit", error);
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: `Error: ${error.data.message}`,
-        });
+        if (typeof error === "object" && error !== null && "data" in error) {
+          const errorResponse = error as ErrorResponse;
+          toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: `Error: ${errorResponse.data.message}`,
+          });
+        }
       }
     } else {
       // console.log("Data for edit", data);
       try {
         const updateResponse = await updateUser({
           id: params.id,
-         ...data
+          ...data,
         }).unwrap();
         // console.log("updateResponse in submit", updateResponse);
         toast({
@@ -152,13 +154,20 @@ const UserForm: React.FC<UserFormProps> = ({ initialData, departments }) => {
           description: updateResponse.message,
         });
         navigate("/dash/users");
-      } catch (updateError: any) {
+      } catch (updateError) {
         // console.log("Update Error", updateError);
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: `Error: ${updateError.data.message}`,
-        });
+        if (
+          typeof updateError === "object" &&
+          updateError !== null &&
+          "data" in updateError
+        ) {
+          const errorResponse = updateError as ErrorResponse;
+          toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: `Error: ${errorResponse.data.message}`,
+          });
+        }
       }
     }
   };
@@ -173,13 +182,16 @@ const UserForm: React.FC<UserFormProps> = ({ initialData, departments }) => {
         });
         navigate("/dash/users");
       }
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: `Error: ${error.data.message}`,
-      });
+      if (typeof error === "object" && error !== null && "data" in error) {
+        const errorResponse = error as ErrorResponse;
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: `Error: ${errorResponse.data.message}`,
+        });
+      }
     }
   };
   return (

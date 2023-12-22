@@ -42,8 +42,8 @@ export function DataTable<TData, TValue>({
   searchKey,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [sorting, setSorting] = useState<SortingState>([]);
+
+  const [sorting] = useState<SortingState>([]);
   const table = useReactTable({
     data,
     columns,

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -38,21 +38,13 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
 
   const onConfirm = async () => {
     try {
       const deleteResponse = await deleteDepartment({ id: data.id });
       console.log(deleteResponse);
-      if (deleteResponse.error) {
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: `Error: ${deleteResponse.error.data.message}`,
-        });
-      } else {
-        // If response.error is not set, it was a success
-        // console.log("response in submit", response);
+      if ("data" in deleteResponse && deleteResponse.data) {
         toast({
           title: "Success",
           description: deleteResponse.data,

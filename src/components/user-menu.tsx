@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Link, useNavigate } from "react-router-dom";
 import { useSendLogoutMutation } from "@/features/auth/authApiSlice";
 import useAuth from "@/hooks/useAuth";
@@ -17,7 +17,7 @@ export function UserMenu() {
   const { username, status } = useAuth();
   const navigate = useNavigate();
 
-  const [sendLogout, { isError, error }] = useSendLogoutMutation();
+  const [sendLogout] = useSendLogoutMutation();
   const handleSignOut = async () => {
     try {
       await sendLogout({}).unwrap();
