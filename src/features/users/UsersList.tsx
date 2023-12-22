@@ -16,9 +16,10 @@ const UsersList = () => {
     isSuccess: isSuccessUsers,
   } = useGetUsersQuery(undefined, {
     pollingInterval: 60000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true,
+    // refetchOnFocus: true,
+    // refetchOnMountOrArgChange: true,
   });
+
   const {
     data: departments,
     isLoading: isLoadingDepartments,

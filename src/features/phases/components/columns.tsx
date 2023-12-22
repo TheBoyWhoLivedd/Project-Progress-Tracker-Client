@@ -2,15 +2,15 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { CellAction } from "./cell-action";
 
-export type DepartmentColumn = {
+export type PhaseColumn = {
   id: string;
-  departmentName: string;
+  phaseName: string;
 };
 
-export const DepartmentColumns: ColumnDef<DepartmentColumn>[] = [
+export const PhaseColumns: ColumnDef<PhaseColumn>[] = [
   {
-    accessorKey: "departmentName",
-    header: "Department Name",
+    accessorKey: "phaseName",
+    header: "Phase Name",
   },
   {
     id: "actions",

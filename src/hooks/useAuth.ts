@@ -16,6 +16,7 @@ const useAuth = () => {
   let status = "Employee";
 
   if (token) {
+    console.log("Token to Decode", token);
     const decoded = jwtDecode<CustomJwtPayload>(token);
 
     const { username, isAdmin: hasAdminRights } = decoded.UserInfo;

@@ -15,6 +15,9 @@ import DepartmentsList from "./features/departments/DepartmentsList";
 import EditDepartment from "./features/departments/EditDepartment";
 import DepartmentForm from "./features/departments/components/DepartmentForm";
 import AddUser from "./features/users/AddUser";
+import PhasesList from "./features/phases/PhasesList";
+import EditPhase from "./features/phases/EditPhase";
+import PhaseForm from "./features/phases/components/PhaseForm";
 
 function App() {
   useTitle("Joseph Mukasa's Auto Repair");
@@ -45,6 +48,14 @@ function App() {
                       <Route
                         path="new"
                         element={<DepartmentForm initialData={null} />}
+                      />
+                    </Route>
+                    <Route path="phases">
+                      <Route index element={<PhasesList />} />
+                      <Route path=":id" element={<EditPhase />} />
+                      <Route
+                        path="new"
+                        element={<PhaseForm initialData={null} />}
                       />
                     </Route>
                   </Route>

@@ -36,7 +36,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
           return false;
         },
       }),
-      keepUnusedDataFor: 5,
+      keepUnusedDataFor: 60,
       transformResponse: (responseData: User[]) => {
         const loadedUsers = responseData.map((user) => {
           user.id = user._id;

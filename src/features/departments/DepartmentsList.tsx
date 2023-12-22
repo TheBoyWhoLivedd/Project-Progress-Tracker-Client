@@ -11,8 +11,8 @@ const DepartmentsList = () => {
     error,
   } = useGetDepartmentsQuery(undefined, {
     pollingInterval: 60000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true,
+    // refetchOnFocus: true,
+    // refetchOnMountOrArgChange: true,
   });
 
   if (isLoading) return <p>Loading...</p>;

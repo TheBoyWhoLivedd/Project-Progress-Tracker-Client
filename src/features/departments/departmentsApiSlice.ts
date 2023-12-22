@@ -35,7 +35,7 @@ export const departmentsApiSlice = apiSlice.injectEndpoints({
           return false;
         },
       }),
-      keepUnusedDataFor: 5,
+      keepUnusedDataFor: 60,
       transformResponse: (responseData: Department[]) => {
         const loadedDepartments = responseData.map((department) => {
           department.id = department._id;

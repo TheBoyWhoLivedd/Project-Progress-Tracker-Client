@@ -6,7 +6,7 @@ import {
   PlusCircledIcon,
   FileIcon,
   PersonIcon,
- 
+  StackIcon,
 } from "@radix-ui/react-icons";
 
 import {
@@ -71,6 +71,29 @@ export const SidebarRoutes = () => {
       ],
     },
     {
+      title: "Project Phases",
+      label: "Project Phases",
+      isTitle: false,
+      icon: <StackIcon />,
+      children: [
+        {
+          title: "New Phase",
+          label: "New Phases",
+          href: "/dash/phases/new",
+          parentKey: "Project Phases",
+          icon: <PlusCircledIcon />,
+        },
+        {
+          title: "View Phases",
+          label: "View Phases",
+          href: "/dash/phases",
+          parentKey: "Project Phases",
+          icon: <CircleIcon />,
+        },
+      ],
+    },
+
+    {
       title: "Employee",
       label: "Employee",
       isTitle: false,
@@ -113,7 +136,7 @@ export const SidebarRoutes = () => {
             icon: <ClipboardIcon />,
           },
         ]
-      : [])
+      : []),
   ];
 
   const routes = isAdmin ? [...commonRoutes, ...adminRoutes] : commonRoutes;

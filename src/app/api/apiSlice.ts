@@ -13,18 +13,18 @@ interface ApiError {
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:3500",
-  // validateStatus: (response, result) => {
-  //   // console.log(response)
-  //   // First, check if there's an error flag in the result
-  //   if (result && result.isError) return false;
+  validateStatus: (response, result) => {
+    // console.log(response)
+    // First, check if there's an error flag in the result
+    if (result && result.isError) return false;
 
-  //   // Treat status 200-299 as success
-  //   if (response.status >= 200 && response.status < 300) return true;
+    // Treat status 200-299 as success
+    if (response.status >= 200 && response.status <= 300) return true;
 
-  //   if (response.status >= 400 && response.status < 500) return false;
+    if (response.status >= 400 && response.status <= 500) return false;
 
-  //   return false;
-  // },
+    return false;
+  },
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -83,7 +83,7 @@ const baseQueryWithReauth = async (
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["Note", "User", "Department"],
+  tagTypes: ["Note", "User", "Department", "Phase"],
   endpoints: (builder) => ({
     // Example minimal endpoint to avoid the linter warning
     exampleEndpoint: builder.query({
