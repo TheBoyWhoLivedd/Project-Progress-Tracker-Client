@@ -12,7 +12,10 @@ interface ApiError {
 }
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:3500",
+  baseUrl:
+    import.meta.env.VITE_ENV === "development"
+      ? "http://localhost:3500"
+      : "https://ura-project-manager-api.onrender.com",
   validateStatus: (response, result) => {
     // console.log(response)
     // First, check if there's an error flag in the result
