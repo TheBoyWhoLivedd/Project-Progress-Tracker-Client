@@ -86,7 +86,7 @@ const baseQueryWithReauth = async (
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["Note", "User", "Department", "Phase"],
+  tagTypes: ["Note", "User", "Department", "Phase", "Project"],
   endpoints: (builder) => ({
     // Example minimal endpoint to avoid the linter warning
     exampleEndpoint: builder.query({

@@ -1,3 +1,4 @@
+// import "./index.css";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Login from "./features/auth/Login";
@@ -18,6 +19,9 @@ import AddUser from "./features/users/AddUser";
 import PhasesList from "./features/phases/PhasesList";
 import EditPhase from "./features/phases/EditPhase";
 import PhaseForm from "./features/phases/components/PhaseForm";
+import ProjectsList from "./features/projects/ProjectsList";
+import EditProject from "./features/projects/EditProject";
+import AddProject from "./features/projects/AddProject";
 
 function App() {
   useTitle("Joseph Mukasa's Auto Repair");
@@ -57,6 +61,11 @@ function App() {
                         path="new"
                         element={<PhaseForm initialData={null} />}
                       />
+                    </Route>
+                    <Route path="projects">
+                      <Route index element={<ProjectsList />} />
+                      <Route path=":id" element={<EditProject />} />
+                      <Route path="new" element={<AddProject />} />
                     </Route>
                   </Route>
                 </Route>

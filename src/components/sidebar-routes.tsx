@@ -22,12 +22,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Link, useLocation} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import useAuth from "@/hooks/useAuth";
 
 export const SidebarRoutes = () => {
-  const {  status } = useAuth();
+  const { status } = useAuth();
   const isAdmin = status === "Admin";
   const userRole = status;
   // const navigate = useNavigate();
@@ -92,7 +92,6 @@ export const SidebarRoutes = () => {
         },
       ],
     },
-
     {
       title: "Employee",
       label: "Employee",
@@ -111,6 +110,28 @@ export const SidebarRoutes = () => {
           label: "Employee List",
           href: "/dash/users",
           parentKey: "Employee",
+          icon: <CircleIcon />,
+        },
+      ],
+    },
+    {
+      title: "Projects",
+      label: "Projects",
+      isTitle: false,
+      icon: <StackIcon />,
+      children: [
+        {
+          title: "New Project",
+          label: "New Project",
+          href: "/dash/projects/new",
+          parentKey: "Projects",
+          icon: <PlusCircledIcon />,
+        },
+        {
+          title: "Projects List",
+          label: "Projects List",
+          href: "/dash/projects",
+          parentKey: "Projects",
           icon: <CircleIcon />,
         },
       ],

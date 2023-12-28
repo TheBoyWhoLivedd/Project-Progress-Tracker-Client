@@ -1,13 +1,7 @@
-import { useGetDepartmentsQuery } from "../departments/departmentsApiSlice";
+import { Department, useGetDepartmentsQuery } from "../departments/departmentsApiSlice";
 import { UsersClient } from "./components/client";
 import { useGetUsersQuery } from "./usersApiSlice";
-interface DepartmentEntity {
-  _id: string;
-  id: string;
-  departmentName: string;
-  departmentDetails: string;
-  departmentStatus: boolean;
-}
+
 
 const UsersList = () => {
   const {
@@ -34,7 +28,7 @@ const UsersList = () => {
     // console.log("Departments", departments);
     const departmentMap: Record<string, string> = departments.ids.reduce(
       (acc, id) => {
-        const department = departments.entities[id] as DepartmentEntity;
+        const department = departments.entities[id] as Department;
         acc[department._id] = department.departmentName;
         return acc;
       },

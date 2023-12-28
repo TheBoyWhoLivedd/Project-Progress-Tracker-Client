@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import * as z from "zod";
 import {
   Card,
@@ -68,7 +68,7 @@ export default function Login() {
     const { username, password } = data;
     try {
       const res = await login({ username, password }).unwrap();
-      dispatch(setCredentials(res.accessToken));
+      dispatch(setCredentials(res));
       // console.log(res.accessToken);
       toast({
         title: "Success",

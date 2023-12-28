@@ -95,3 +95,89 @@ export const calendarClass = {
     ),
   }),
 };
+
+
+
+export const multiSelectClass = {
+  root: ({ props }) => ({
+    className: cn(
+      "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+      props.disabled && "cursor-not-allowed opacity-50"
+    ),
+  }),
+  labelContainer: {
+    className: cn("overflow-hidden flex items-center flex-auto cursor-pointer"),
+  },
+  label: () => ({
+    className: cn(
+      "block overflow-hidden whitespace-nowrap cursor-pointer overflow-ellipsis",
+      "text-gray-800 dark:text-white/80",
+      "p-0 transition duration-200"
+    ),
+  }),
+  token: {
+    className: cn(
+      "py-1 px-2 mr-2 bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white/80 rounded-full",
+      "cursor-default inline-flex items-center"
+    ),
+  },
+  header: {
+    className: cn("w-full"),
+  },
+
+  headerCheckbox: {
+    root: {
+      className: cn(
+        "flex items-center justify-center",
+        "border-2 ml-4 w-6 h-6 text-gray-600 dark:text-white/70 rounded-lg transition-colors duration-200",
+        "hover:border-blue-500 focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]"
+      ),
+    },
+  },
+
+  filterContainer: {
+    className: cn("flex items-center border-b pl-3  h-9"),
+  },
+  filterInput: {
+    root: {
+      className: cn(
+        "flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
+        "pl-10"
+      ),
+    },
+  },
+  filterIcon: {
+    className: cn("absolute ml-2 h-4 w-4 shrink-0 opacity-50"),
+  },
+  closeButton: {
+    className: cn("p-2"),
+  },
+  panel: {
+    className:
+      "z-50  rounded-md border bg-popover p-0 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+  },
+  checkbox: {
+    className: cn(
+      "flex items-center justify-center",
+      "border-2 ml-2 w-6 h-6 text-gray-600 dark:text-white/70 rounded-lg transition-colors duration-200",
+      "hover:border-blue-500 focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]"
+    ),
+  },
+  item: ({ context }) => ({
+    className: cn(
+      "cursor-pointer font-normal overflow-hidden relative whitespace-nowrap",
+      "m-0 p-2 border-0  transition-shadow duration-200 rounded-none",
+      "dark:text-white/80 dark:hover:bg-gray-800",
+      "hover:text-gray-700 hover:bg-gray-200",
+      {
+        "text-gray-700": !context.focused && !context.selected,
+        "bg-gray-300 text-gray-700 dark:text-white/80 dark:bg-gray-800/90":
+          context.focused && !context.selected,
+        "bg-gray-400 text-blue-700 dark:bg-gray-800 dark:text-white/80":
+          context.focused && context.selected,
+        "bg-gray-50 text-blue-700 dark:bg-background dark:text-white/80":
+          !context.focused && context.selected,
+      }
+    ),
+  }),
+};
