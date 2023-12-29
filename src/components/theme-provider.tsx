@@ -71,3 +71,15 @@ export const useTheme = () => {
 
   return context;
 };
+
+export function useResolvedTheme() {
+  const { theme } = useTheme();
+
+  if (theme === "system") {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+
+  return theme;
+}

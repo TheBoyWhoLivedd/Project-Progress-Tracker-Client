@@ -50,11 +50,20 @@ import {
 } from "../tasksApiSlice";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
-import { Textarea } from "@/components/ui/textarea";
+// import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "primereact/calendar";
 import { calendarClass } from "@/lib/primeTailwind";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "@/features/auth/authSlice";
+import { BlockNoteEditor } from "@blocknote/core";
+import {
+  BlockNoteView,
+  Theme,
+  darkDefaultTheme,
+  useBlockNote,
+} from "@blocknote/react";
+import "@blocknote/core/style.css";
+import { useResolvedTheme } from "@/components/theme-provider";
 
 const formSchema = z.object({
   taskName: z.string().min(1, {
@@ -157,13 +166,48 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
   ] = useDeleteTaskMutation();
 
   const { projectId, taskId } = useParams();
+
   // console.log(projectId,taskId);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const theme = useResolvedTheme();
 
   const [open, setOpen] = useState(false);
   const [loading] = useState(false);
   const [uploading, setUploading] = useState(false);
+
+  // Define the initial content for the editor
+  const initialEditorContent = initialData?.taskDescription
+    ? JSON.parse(initialData.taskDescription)
+    : [];
+
+  // Initialize the editor with custom options
+  const editor: BlockNoteEditor = useBlockNote({
+    editable: true,
+    initialContent: initialEditorContent,
+    onEditorContentChange: (editor) => {
+      const updatedContent = JSON.stringify(editor.topLevelBlocks);
+      console.log("Updated content:", updatedContent);
+      form.setValue("taskDescription", updatedContent);
+    },
+  });
+
+  const backgroundColor = "#020817";
+  // Custom dark theme
+  const customDarkTheme = {
+    ...darkDefaultTheme,
+    colors: {
+      ...darkDefaultTheme.colors,
+      editor: {
+        ...darkDefaultTheme.colors.editor,
+        background: backgroundColor,
+      },
+      menu: {
+        ...darkDefaultTheme.colors.editor,
+        background: backgroundColor,
+      },
+    },
+  } satisfies Theme;
 
   // Initialize fileInfos state with initial attachments
   const initialAttachments =
@@ -585,10 +629,10 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
                   <FormItem>
                     <FormLabel>Task Details</FormLabel>
                     <FormControl>
-                      <Textarea
-                        disabled={loading}
-                        placeholder="To Enhance Risk Management in COO"
+                      <BlockNoteView
                         {...field}
+                        editor={editor}
+                        theme={theme === "dark" ? customDarkTheme : "light"}
                       />
                     </FormControl>
                     <FormMessage />
