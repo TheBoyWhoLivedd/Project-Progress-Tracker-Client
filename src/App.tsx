@@ -25,6 +25,7 @@ import AddProject from "./features/projects/AddProject";
 import TasksList from "./features/tasks/TasksList";
 import AddTask from "./features/tasks/AddTask";
 import EditTask from "./features/tasks/EditTask";
+import UpdatePhase from "./features/projects/UpdatePhase";
 
 function App() {
   useTitle("Joseph Mukasa's Auto Repair");
@@ -68,10 +69,20 @@ function App() {
                     <Route path="projects">
                       <Route index element={<ProjectsList />} />
                       <Route path=":id" element={<EditProject />} />
+                      <Route
+                        path=":id/update-phase"
+                        element={<UpdatePhase />}
+                      />
                       <Route path="new" element={<AddProject />} />
                       <Route path=":projectId/tasks" element={<TasksList />} />
-                      <Route path=":projectId/tasks/new" element={<AddTask />} />
-                      <Route path=":projectId/tasks/:taskId" element={<EditTask />} />
+                      <Route
+                        path=":projectId/tasks/new"
+                        element={<AddTask />}
+                      />
+                      <Route
+                        path=":projectId/tasks/:taskId"
+                        element={<EditTask />}
+                      />
                     </Route>
                   </Route>
                 </Route>

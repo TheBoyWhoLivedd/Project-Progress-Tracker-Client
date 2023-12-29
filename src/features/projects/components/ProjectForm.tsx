@@ -240,6 +240,15 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
+          <div className="flex gap-2">
+          <Button
+            disabled={loading}
+            variant="secondary"
+            size="sm"
+            onClick={() => navigate(`/dash/projects/${params.id}/update-phase`)}
+          >
+            Update Phase
+          </Button>
           <Button
             disabled={loading}
             variant="destructive"
@@ -248,6 +257,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
           >
             <TrashIcon className="h-4 w-4" />
           </Button>
+          </div>
         )}
       </div>
       <Separator />
