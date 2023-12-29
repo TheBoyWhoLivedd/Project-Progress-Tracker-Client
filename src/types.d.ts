@@ -21,3 +21,17 @@ declare interface Project {
   estimatedEndDate: Date;
   actualEndDate?: Date;
 }
+
+declare interface Task {
+  _id: string;
+  id: string;
+  taskName: string;
+  associatedPhase: string;
+  assignedTo: string;
+  taskWeight: number;
+  status: "Backlog" | "To Do" | "In Progress" | "Done" | "Cancelled";
+  attachments: { url: string; name: string }[];
+  startDate: Date;
+  dueDate: Date;
+  taskDescription: string;
+}

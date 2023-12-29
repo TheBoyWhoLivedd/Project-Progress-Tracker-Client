@@ -22,6 +22,9 @@ import PhaseForm from "./features/phases/components/PhaseForm";
 import ProjectsList from "./features/projects/ProjectsList";
 import EditProject from "./features/projects/EditProject";
 import AddProject from "./features/projects/AddProject";
+import TasksList from "./features/tasks/TasksList";
+import AddTask from "./features/tasks/AddTask";
+import EditTask from "./features/tasks/EditTask";
 
 function App() {
   useTitle("Joseph Mukasa's Auto Repair");
@@ -66,6 +69,9 @@ function App() {
                       <Route index element={<ProjectsList />} />
                       <Route path=":id" element={<EditProject />} />
                       <Route path="new" element={<AddProject />} />
+                      <Route path=":projectId/tasks" element={<TasksList />} />
+                      <Route path=":projectId/tasks/new" element={<AddTask />} />
+                      <Route path=":projectId/tasks/:taskId" element={<EditTask />} />
                     </Route>
                   </Route>
                 </Route>

@@ -29,6 +29,8 @@ import { Input } from "@/components/ui/input";
 // import { statuses } from "@/app/dashboard/admin/affiliates/components/columns";
 
 import { Cross2Icon } from "@radix-ui/react-icons";
+import { DataTableFacetedFilter } from "./data-table-faceted-filter";
+import { priorities, statuses } from "@/features/tasks/components/columns";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -71,13 +73,20 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        {/* {table.getColumn("status") && (
+        {table.getColumn("status") && (
           <DataTableFacetedFilter
             column={table.getColumn("status")}
             title="Status"
             options={statuses}
           />
-        )} */}
+        )}
+        {table.getColumn("taskWeight") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("taskWeight")}
+            title="Priority"
+            options={priorities}
+          />
+        )}
         {isFiltered && (
           <Button
             variant="ghost"
