@@ -179,15 +179,15 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
   // Define the initial content for the editor
   const initialEditorContent = initialData?.taskDescription
     ? JSON.parse(initialData.taskDescription)
-    : [];
+    : undefined;
 
   // Initialize the editor with custom options
   const editor: BlockNoteEditor = useBlockNote({
     editable: true,
     initialContent: initialEditorContent,
     onEditorContentChange: (editor) => {
-      const updatedContent = JSON.stringify(editor.topLevelBlocks);
-      console.log("Updated content:", updatedContent);
+      const updatedContent = JSON.stringify(editor.topLevelBlocks, null, 2);
+      // console.log("Updated content:", updatedContent);
       form.setValue("taskDescription", updatedContent);
     },
   });
