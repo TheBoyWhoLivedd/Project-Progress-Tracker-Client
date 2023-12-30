@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import * as z from "zod";
 import {
   Form,
@@ -15,10 +15,7 @@ import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
-import {
-  useAddNewProjectMutation,
-  useUpdateProjectMutation,
-} from "../projectsApiSlice";
+import { useUpdateProjectPhaseMutation } from "../projectsApiSlice";
 import { useToast } from "@/components/ui/use-toast";
 import { calendarClass } from "@/lib/primeTailwind";
 import { Calendar } from "primereact/calendar";
@@ -30,55 +27,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const addProjectFormSchema = z.object({
+const updatePhaseFormSchema = z.object({
   projectName: z.string().min(1, {
     message: "Name must be atleast 1 character",
   }),
-  projectDescription: z.string().min(1),
   currentPhase: z.string().min(1),
   phaseStartDate: z.date({ required_error: "Please select a Start Date." }),
   phaseEstimatedEndDate: z.date({
     required_error: "Please select an estimated end Date.",
   }),
-  team: z
-    .array(z.string().min(1))
-    .min(1, "The team must have at least one member"),
-  teamLead: z
-    .array(z.string().min(1))
-    .min(1, "There must be at least one team lead"),
-  projectStatus: z.enum(["Active", "Completed", "On Hold"]),
-  startDate: z.date({ required_error: "Please select a Start Date." }),
-  estimatedEndDate: z.date({
-    required_error: "Please select an estimated end Date.",
-  }),
-  actualEndDate: z.date().optional(),
 });
 
-const editProjectFormSchema = z.object({
-  projectName: z.string().min(1, {
-    message: "Name must be atleast 1 character",
-  }),
-  projectDescription: z.string().min(1),
-  currentPhase: z.string().min(1).optional(),
-  phaseStartDate: z.date().optional(),
-  phaseEstimatedEndDate: z.date().optional(),
-  team: z
-    .array(z.string().min(1))
-    .min(1, "The team must have at least one member"),
-  teamLead: z
-    .array(z.string().min(1))
-    .min(1, "There must be at least one team lead"),
-  projectStatus: z.enum(["Active", "Completed", "On Hold"]),
-  startDate: z.date({ required_error: "Please select a Start Date." }),
-  estimatedEndDate: z.date({
-    required_error: "Please select an estimated end Date.",
-  }),
-  actualEndDate: z.date().optional(),
-});
-
-type ProjectFormValues =
-  | z.infer<typeof addProjectFormSchema>
-  | z.infer<typeof editProjectFormSchema>;
+type ProjectFormValues = z.infer<typeof updatePhaseFormSchema>;
 
 export type Team = {
   id: string;
@@ -99,19 +59,14 @@ const UpdatePhaseForm: React.FC<ProjectFormProps> = ({
   phases,
 }) => {
   const [
-    addNewProject,
-    // { isLoading, isSuccess, isError, error }
-  ] = useAddNewProjectMutation();
-
-  const [
-    updateProject,
+    updateProjectPhase,
     // {
     //   isLoading: isUpdateLoading,
     //   isSuccess: isUpdateSuccess,
     //   isError: isUpdateError,
     //   error: updateError,
     // },
-  ] = useUpdateProjectMutation();
+  ] = useUpdateProjectPhaseMutation();
 
   const params = useParams();
   const navigate = useNavigate();
@@ -130,67 +85,33 @@ const UpdatePhaseForm: React.FC<ProjectFormProps> = ({
         currentPhase: "",
       };
 
-  // Dynamically select schema based on initialData
-  const selectedFormSchema = useMemo(() => {
-    return initialData ? editProjectFormSchema : addProjectFormSchema;
-  }, [initialData]);
-
   const form = useForm<ProjectFormValues>({
-    resolver: zodResolver(selectedFormSchema),
+    resolver: zodResolver(updatePhaseFormSchema),
     defaultValues,
   });
 
   const onSubmit = async (data: ProjectFormValues) => {
     console.log(data);
-    if (!initialData) {
-      try {
-        const response = await addNewProject({
-          ...data,
-        }).unwrap();
-        // console.log("response in submit", response);
+    try {
+      const response = await updateProjectPhase({
+        id: params.id,
+        ...data,
+      }).unwrap();
+      // console.log("response in submit", response);
+      toast({
+        title: "Success",
+        description: response.message,
+      });
+      navigate("/dash/projects");
+    } catch (error) {
+      // conso le.log("Error in submit", error);
+      if (typeof error === "object" && error !== null && "data" in error) {
+        const errorResponse = error as ErrorResponse;
         toast({
-          title: "Success",
-          description: response.message,
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: `Error: ${errorResponse.data.message}`,
         });
-        navigate("/dash/projects");
-      } catch (error) {
-        // conso le.log("Error in submit", error);
-        if (typeof error === "object" && error !== null && "data" in error) {
-          const errorResponse = error as ErrorResponse;
-          toast({
-            variant: "destructive",
-            title: "Uh oh! Something went wrong.",
-            description: `Error: ${errorResponse.data.message}`,
-          });
-        }
-      }
-    } else {
-      console.log("Data for edit", data);
-      try {
-        const updateResponse = await updateProject({
-          id: params.id,
-          ...data,
-        }).unwrap();
-        // console.log("updateResponse in submit", updateResponse);
-        toast({
-          title: "Success",
-          description: updateResponse.message,
-        });
-        navigate("/dash/projects");
-      } catch (updateError) {
-        // console.log("Update Error", updateError);
-        if (
-          typeof updateError === "object" &&
-          updateError !== null &&
-          "data" in updateError
-        ) {
-          const errorResponse = updateError as ErrorResponse;
-          toast({
-            variant: "destructive",
-            title: "Uh oh! Something went wrong.",
-            description: `Error: ${errorResponse.data.message}`,
-          });
-        }
       }
     }
   };

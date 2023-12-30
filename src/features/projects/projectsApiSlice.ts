@@ -74,6 +74,16 @@ export const projectsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (_result, _error, arg) => [{ type: "Project", id: arg.id }],
     }),
+    updateProjectPhase: builder.mutation({
+      query: ({ id, ...initialProjectData }) => ({
+        url: `/projects/${id}/update-phase`,
+        method: "PATCH",
+        body: {
+          ...initialProjectData,
+        },
+      }),
+      invalidatesTags: (_result, _error, arg) => [{ type: "Project", id: arg.id }],
+    }),
     deleteProject: builder.mutation({
       query: ({ id }) => ({
         url: `/projects/${id}`,
@@ -90,6 +100,7 @@ export const {
   useAddNewProjectMutation,
   useUpdateProjectMutation,
   useDeleteProjectMutation,
+  useUpdateProjectPhaseMutation,
 } = projectsApiSlice;
 
 // Define a type for the Redux state
