@@ -5,6 +5,14 @@ declare interface ErrorResponse {
   };
 }
 
+interface PhaseHistory {
+  _id: string;
+  phase: string;
+  phaseStartDate: Date;
+  phaseEstimatedEndDate: Date;
+  phaseCompletionRate: number;
+}
+
 declare interface Project {
   _id: string;
   id: string;
@@ -12,15 +20,16 @@ declare interface Project {
   projectDescription: string;
   currentPhase: string;
   currentPhaseName?: string;
-  phaseStartDate: Date;
-  phaseEstimatedEndDate: Date;
+  phasesHistory: PhaseHistory[];
   team: string[];
   teamLead: string[];
   projectStatus: "Active" | "Completed" | "On Hold";
   startDate: Date;
   estimatedEndDate: Date;
   actualEndDate?: Date;
+  projectCompletionRate: number;
 }
+
 
 declare interface Task {
   _id: string;

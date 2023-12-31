@@ -61,7 +61,10 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
           ...initialTaskData,
         },
       }),
-      invalidatesTags: [{ type: "Task", id: "LIST" }],
+      invalidatesTags: [
+        { type: "Task", id: "LIST" },
+        { type: "Project", id: "LIST" },
+      ],
     }),
     updateTask: builder.mutation({
       query: ({ projectId, taskId, ...initialTaskData }) => ({
@@ -71,7 +74,10 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
           ...initialTaskData,
         },
       }),
-      invalidatesTags: (_result, _error, arg) => [{ type: "Task", id: arg.id }],
+      invalidatesTags: [
+        { type: "Task", id: "LIST" },
+        { type: "Project", id: "LIST" },
+      ],
     }),
     deleteTask: builder.mutation({
       query: ({ projectId, taskId }) => ({

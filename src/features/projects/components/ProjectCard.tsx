@@ -4,11 +4,49 @@ import {
   CardDescription,
   CardHeader,
   CardContent,
-  CardFooter,
   Card,
 } from "@/components/ui/card";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 import { useNavigate } from "react-router-dom";
+
+function CircularProgress({ completionRate }: { completionRate: number }) {
+  const normalizedRate = Math.min(Math.max(completionRate, 0), 100); // Ensure rate is between 0 and 100
+  const circumference = 2 * Math.PI * 50; // Assuming the radius is 50 for the circle
+  const strokeDashoffset = ((100 - normalizedRate) / 100) * circumference;
+
+  return (
+    <svg width="50" height="50" viewBox="0 0 120 120">
+      <circle
+        cx="60"
+        cy="60"
+        r="50"
+        stroke="lightgray"
+        strokeWidth="10"
+        fill="transparent"
+      />
+      <circle
+        cx="60"
+        cy="60"
+        r="50"
+        stroke="green"
+        strokeWidth="10"
+        fill="transparent"
+        strokeDasharray={circumference}
+        strokeDashoffset={strokeDashoffset}
+        transform="rotate(-90 60 60)"
+      />
+      <text
+        x="60"
+        y="69" // Adjust this value to center the text vertically
+        textAnchor="middle"
+        fontSize="40"
+        fill="green"
+      >
+        {Math.ceil(normalizedRate)}
+      </text>
+    </svg>
+  );
+}
 
 export default function ProjectCard({ project }: { project: Project }) {
   const navigate = useNavigate();
@@ -17,11 +55,13 @@ export default function ProjectCard({ project }: { project: Project }) {
     navigate(`/dash/projects/${project.id}`);
   };
 
+  console.log("project in card", project);
+
   return (
     <div className="block w-full">
       <Card
         onClick={() => navigate(`/dash/projects/${project.id}/tasks`)}
-        className="m-4 cursor-pointer hover:shadow-lg transition duration-200 ease-in-out bg-white dark:bg-gray-800 text-black dark:text-white border border-gray-200 dark:border-gray-800 rounded-lg group relative min-h-[350px] flex flex-col dark:hover:opacity-80"
+        className="m-4 cursor-pointer hover:shadow-lg transition duration-200 ease-in-out bg-white dark:bg-gray-800 text-black dark:text-white border border-gray-200 dark:border-gray-800 rounded-lg group relative min-h-[300px] flex flex-col dark:hover:opacity-80"
       >
         <Button
           onClick={handleEditClick}
@@ -44,14 +84,51 @@ export default function ProjectCard({ project }: { project: Project }) {
             <TypeIcon className="w-6 h-6" />
           </div>
         </CardHeader>
-        <CardContent className="p-4 text-sm border-t border-gray-200 dark:border-gray-700">
+        <CardContent className="p-0">
+          <div className="relative w-full mb-6">
+            <div className="absolute inset-0 bg-gray-200 h-2"></div>
+            <div
+              className="absolute left-0 top-0 h-2 bg-green-600"
+              style={{ width: `${project.projectCompletionRate}%` }}
+            ></div>
+            <span
+              className="absolute whitespace-nowrap bg-green-600 text-white text-xs rounded-b-sm px-2 py-1"
+              style={{
+                left:
+                  project.projectCompletionRate >= 15
+                    ? `${project.projectCompletionRate}%`
+                    : "0%",
+                bottom: "-2rem", // Position the label below the progress bar
+                transform:
+                  project.projectCompletionRate >= 15
+                    ? "translateX(-100%)"
+                    : "translateX(0)", // Adjust the threshold based on the width of your label
+              }}
+            >
+              {`${Math.ceil(project.projectCompletionRate)}%`}
+            </span>
+          </div>
+        </CardContent>
+
+        <CardContent className="p-4 text-sm border-t-none border-gray-200 dark:border-gray-700">
           <div className="flex items-center space-x-2">
             <TypeIcon className="w-6 h-6" />
             <span className="text-gray-900 dark:text-gray-100">
               Phase: {project.currentPhaseName}
             </span>
+            <div className="">
+              <CircularProgress
+                completionRate={
+                  project.phasesHistory.length > 0
+                    ? project.phasesHistory[project.phasesHistory.length - 1]
+                        ?.phaseCompletionRate
+                    : 0
+                }
+              />
+            </div>
           </div>
         </CardContent>
+
         <CardContent className="p-4 text-sm border-t border-gray-200 dark:border-gray-700">
           <div className="flex items-center space-x-2">
             <BadgeIcon className="w-6 h-6" />
@@ -60,19 +137,6 @@ export default function ProjectCard({ project }: { project: Project }) {
             </span>
           </div>
         </CardContent>
-        <div className="mt-auto">
-          <CardFooter className="flex justify-between items-center p-4 bg-gray-100 dark:bg-gray-700">
-            <div className="flex items-center space-x-2">
-              <MilestoneIcon className="w-6 h-6" />
-              <span className="text-gray-900 dark:text-gray-100">
-                Progress:
-              </span>
-            </div>
-            <div className="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
-              <div className="h-full bg-green-500 w-3/4" />
-            </div>
-          </CardFooter>
-        </div>
       </Card>
     </div>
   );
@@ -97,26 +161,26 @@ function BadgeIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-function MilestoneIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M18 6H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h13l4-3.5L18 6Z" />
-      <path d="M12 13v8" />
-      <path d="M12 3v3" />
-    </svg>
-  );
-}
+// function MilestoneIcon(props: React.SVGProps<SVGSVGElement>) {
+//   return (
+//     <svg
+//       {...props}
+//       xmlns="http://www.w3.org/2000/svg"
+//       width="24"
+//       height="24"
+//       viewBox="0 0 24 24"
+//       fill="none"
+//       stroke="currentColor"
+//       strokeWidth="2"
+//       strokeLinecap="round"
+//       strokeLinejoin="round"
+//     >
+//       <path d="M18 6H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h13l4-3.5L18 6Z" />
+//       <path d="M12 13v8" />
+//       <path d="M12 3v3" />
+//     </svg>
+//   );
+// }
 
 function TypeIcon(props: React.SVGProps<SVGSVGElement>) {
   return (

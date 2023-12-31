@@ -11,6 +11,8 @@ const ProjectsList = () => {
     pollingInterval: 60000,
   });
 
+  console.log("Projects", projects);
+
   const {
     data: phases,
     isLoading: isLoadingPhases,
@@ -31,7 +33,7 @@ const ProjectsList = () => {
     const transformedData = projects.ids.map((projectId) => {
       const project = projects.entities[projectId];
       const currentPhaseName = phaseMap[project.currentPhase] || "Unknown";
-
+      console.log("Project", project);
       return {
         ...project,
         currentPhaseName, 

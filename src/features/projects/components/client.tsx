@@ -52,7 +52,7 @@ export const ProjectsClient: React.FC<ProjectsClientProps> = ({ data }) => {
         {/* Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {data.map((project, index) => (
-            <ProjectCard key={index} project={project} /> // Spread the project data into the card
+            <ProjectCard key={index} project={project} /> 
           ))}
         </div>
       </div>
