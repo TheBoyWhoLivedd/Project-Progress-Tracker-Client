@@ -7,6 +7,7 @@ import {
   Card,
 } from "@/components/ui/card";
 import { Pencil2Icon } from "@radix-ui/react-icons";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function CircularProgress({ completionRate }: { completionRate: number }) {
@@ -42,7 +43,7 @@ function CircularProgress({ completionRate }: { completionRate: number }) {
         fontSize="40"
         fill="green"
       >
-        {Math.ceil(normalizedRate)}
+        {Math.ceil(normalizedRate)}%
       </text>
     </svg>
   );
@@ -54,6 +55,27 @@ export default function ProjectCard({ project }: { project: Project }) {
     e.stopPropagation();
     navigate(`/dash/projects/${project.id}`);
   };
+
+  const [animatedWidth, setAnimatedWidth] = useState(0);
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);
+
+  useEffect(() => {
+    // This timeout is to ensure the animation starts after the component mounts
+    const timeout = setTimeout(() => {
+      setAnimatedWidth(project.projectCompletionRate);
+    }, 100);
+
+    return () => clearTimeout(timeout);
+  }, [project.projectCompletionRate]);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsLargeScreen(window.innerWidth >= 768);
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   console.log("project in card", project);
 
@@ -88,24 +110,25 @@ export default function ProjectCard({ project }: { project: Project }) {
           <div className="relative w-full mb-6">
             <div className="absolute inset-0 bg-gray-200 h-2"></div>
             <div
-              className="absolute left-0 top-0 h-2 bg-green-600"
-              style={{ width: `${project.projectCompletionRate}%` }}
+              className="absolute left-0 top-0 h-2 bg-green-600 transition-all duration-2000"
+              style={{ width: `${animatedWidth}%` }}
             ></div>
+
             <span
-              className="absolute whitespace-nowrap bg-green-600 text-white text-xs rounded-b-sm px-2 py-1"
+              className="absolute whitespace-nowrap bg-green-600 text-white text-xs rounded-b-sm px-2 py-1 transition-all duration-2000"
               style={{
                 left:
-                  project.projectCompletionRate >= 15
-                    ? `${project.projectCompletionRate}%`
+                  animatedWidth >= (isLargeScreen ? 10 : 15)
+                    ? `${animatedWidth}%`
                     : "0%",
-                bottom: "-2rem", // Position the label below the progress bar
+                bottom: "-2rem",
                 transform:
-                  project.projectCompletionRate >= 15
+                  animatedWidth >= (isLargeScreen ? 10 : 15)
                     ? "translateX(-100%)"
-                    : "translateX(0)", // Adjust the threshold based on the width of your label
+                    : "translateX(0)",
               }}
             >
-              {`${Math.ceil(project.projectCompletionRate)}%`}
+              {`${Math.ceil(animatedWidth)}%`}
             </span>
           </div>
         </CardContent>
