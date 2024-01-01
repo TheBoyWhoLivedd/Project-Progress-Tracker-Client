@@ -11,7 +11,7 @@ import { Toaster } from "./components/ui/toaster.tsx";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <PrimeReactProvider>
+      <PrimeReactProvider value={{ unstyled: true, pt: {} }}>
         <BrowserRouter>
           <Routes>
             <Route path="/*" element={<App />} />
