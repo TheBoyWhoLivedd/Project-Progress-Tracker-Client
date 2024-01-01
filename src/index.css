@@ -87,4 +87,79 @@
   content: "➜ ";
 }
 
+/* In your global CSS file */
 
+/* .dark-mode ._3eULf * {
+  fill: none;
+} */
+.dark-mode ._35nLX {
+  fill: none;
+}
+.dark-mode ._34SS0 {
+  @apply bg-gray-800;
+}
+
+.dark-mode ._3eULf {
+  @apply bg-gray-800;
+}
+
+.dark-mode .calendar {
+  @apply bg-gray-800;
+}
+.dark-mode .today rect {
+  @apply bg-gray-800;
+  fill: none;
+}
+
+.dark-mode .calendar text {
+  /* Tailwind doesn't have a utility for SVG fill, so you might need to use plain CSS */
+  fill: white;
+}
+
+/* Removes the fill from the rows in dark mode */
+.dark-mode g.rows rect._2dZTy {
+  fill: none; /* or set to a different color if you prefer */
+}
+
+.dark-mode ._3T42e {
+  @apply bg-gray-800;
+  /* Or any other Tailwind color */
+}
+.dark-mode ._3T42e p {
+  color: white;
+  /* Or any other Tailwind color */
+}
+
+/*Gantt chart scrollbar styles*/
+
+/* For Webkit browsers like Chrome, Safari */
+.dark-mode ::-webkit-scrollbar {
+  width: 8px; /* Adjust the width of the scrollbar */
+}
+
+.dark-mode ::-webkit-scrollbar-track {
+  background: #2e2e2e; /* The track of the scrollbar */
+}
+
+.dark-mode ::-webkit-scrollbar-thumb {
+  background-color: #888; /* The draggable part of the scrollbar */
+  border-radius: 6px;
+  border: 3px solid #2e2e2e;
+}
+
+/* For Firefox */
+.dark-mode {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #2e2e2e;
+}
+
+/* For other browsers that support the standard properties */
+.dark-mode ::-moz-scrollbar {
+  background: #010000;
+}
+
+.dark-mode ::-moz-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+  border: 3px solid #2e2e2e;
+}

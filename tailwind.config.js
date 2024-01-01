@@ -67,16 +67,23 @@ export const theme = {
         from: { height: "var(--radix-accordion-content-height)" },
         to: { height: 0 },
       },
-      grow: {
-        '0%': { width: '0%' },
-        '100%': { width: '100%' },
-      },
     },
     animation: {
       "accordion-down": "accordion-down 0.2s ease-out",
       "accordion-up": "accordion-up 0.2s ease-out",
-      grow: 'grow 2s ease-in-out',
+     
     },
+    transitionDuration: {
+      '750': '750ms',
+      '760': '760ms',
+      "770": "770ms",
+      "780": "780ms",
+      "790": "790ms",
+      "800": "800ms",
+      "810": "810ms",
+      "820": "820ms",
+      "830": "830ms",
+    }
   },
 };
 export const plugins = [require("tailwindcss-animate")];

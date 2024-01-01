@@ -107,15 +107,15 @@ export default function ProjectCard({ project }: { project: Project }) {
           </div>
         </CardHeader>
         <CardContent className="p-0">
-          <div className="relative w-full mb-6">
+          <div className="relative w-full mb-6 ">
             <div className="absolute inset-0 bg-gray-200 h-2"></div>
             <div
-              className="absolute left-0 top-0 h-2 bg-green-600 transition-all duration-2000"
+              className="absolute left-0 top-0 h-2 bg-green-600 transition-all duration-500"
               style={{ width: `${animatedWidth}%` }}
             ></div>
 
             <span
-              className="absolute whitespace-nowrap bg-green-600 text-white text-xs rounded-b-sm px-2 py-1 transition-all duration-2000"
+              className="absolute whitespace-nowrap bg-green-600 text-white text-xs rounded-b-sm px-2 py-1 transition-all duration-500"
               style={{
                 left:
                   animatedWidth >= (isLargeScreen ? 10 : 15)

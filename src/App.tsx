@@ -26,6 +26,7 @@ import TasksList from "./features/tasks/TasksList";
 import AddTask from "./features/tasks/AddTask";
 import EditTask from "./features/tasks/EditTask";
 import UpdatePhase from "./features/projects/UpdatePhase";
+import GanttChart from "./features/projects/GanttChart";
 
 function App() {
   useTitle("Joseph Mukasa's Auto Repair");
@@ -72,6 +73,10 @@ function App() {
                       <Route
                         path=":id/update-phase"
                         element={<UpdatePhase />}
+                      />
+                      <Route
+                        path=":id/gantt"
+                        element={<GanttChart />}
                       />
                       <Route path="new" element={<AddProject />} />
                       <Route path=":projectId/tasks" element={<TasksList />} />

@@ -62,6 +62,11 @@ export function DataTable<TData, TValue>({
     },
   });
   const isFiltered = table.getState().columnFilters.length > 0;
+  const doesColumnExist = (columnId: string) => {
+    const column = table.getColumn(columnId);
+    return column !== undefined;
+  };
+
   return (
     <div>
       <div className="flex items-center py-4 gap-2">
@@ -73,14 +78,14 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        {table.getColumn("status") && (
+        {doesColumnExist("status") && (
           <DataTableFacetedFilter
             column={table.getColumn("status")}
             title="Status"
             options={statuses}
           />
         )}
-        {table.getColumn("taskWeight") && (
+        {doesColumnExist("taskWeight") && (
           <DataTableFacetedFilter
             column={table.getColumn("taskWeight")}
             title="Priority"
