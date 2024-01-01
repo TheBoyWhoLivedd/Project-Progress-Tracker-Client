@@ -1,4 +1,4 @@
-// import "./index.css";
+import "./index.css";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Login from "./features/auth/Login";
