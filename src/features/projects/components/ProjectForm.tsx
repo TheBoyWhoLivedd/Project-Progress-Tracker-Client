@@ -24,7 +24,7 @@ import {
 } from "../projectsApiSlice";
 import { useToast } from "@/components/ui/use-toast";
 import { MultiSelect } from "primereact/multiselect";
-import { calendarClass, multiSelectClass } from "@/lib/primeTailwind";
+// import { calendarClass, multiSelectClass } from "@/lib/primeTailwind";
 import { Calendar } from "primereact/calendar";
 import {
   Select,
@@ -293,7 +293,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
                   <FormLabel>Team Members</FormLabel>
                   <FormControl>
                     <MultiSelect
-                      pt={multiSelectClass}
+                      // pt={multiSelectClass}
                       display="chip"
                       value={field.value}
                       options={team.map((t) => ({
@@ -321,7 +321,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
                   <FormControl>
                     <MultiSelect
                       display="chip"
-                      pt={multiSelectClass}
+                      // pt={multiSelectClass}
                       value={field.value}
                       options={team.map((t) => ({
                         label: t.name,
@@ -383,7 +383,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
                       <FormLabel>Planning Phase Start Date</FormLabel>
                       <FormControl>
                         <Calendar
-                          pt={calendarClass}
+                          // pt={calendarClass}
                           value={field.value}
                           onChange={(e) => field.onChange(e.value)}
                           dateFormat="dd/mm/yy"
@@ -400,7 +400,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
                       <FormLabel>Planning Phase Estimated End Date</FormLabel>
                       <FormControl>
                         <Calendar
-                          pt={calendarClass}
+                          // pt={calendarClass}
                           value={field.value}
                           onChange={(e) => field.onChange(e.value)}
                           dateFormat="dd/mm/yy"
@@ -454,7 +454,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
                   <FormLabel>Project Start Date</FormLabel>
                   <FormControl>
                     <Calendar
-                      pt={calendarClass}
+                      // pt={calendarClass}
                       value={field.value ? new Date(field.value) : null}
                       onChange={(e) => field.onChange(e.value)}
                       dateFormat="dd/mm/yy"
@@ -471,7 +471,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
                   <FormLabel>Project Estimated End Date</FormLabel>
                   <FormControl>
                     <Calendar
-                      pt={calendarClass}
+                      // pt={calendarClass}
                       value={field.value ? new Date(field.value) : null}
                       onChange={(e) => field.onChange(e.value)}
                       dateFormat="dd/mm/yy"

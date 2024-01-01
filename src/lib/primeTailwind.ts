@@ -181,3 +181,9 @@ export const multiSelectClass = {
     ),
   }),
 };
+
+
+export const MyDesignSystem = {
+  calendar: calendarClass,
+  multiSelect: multiSelectClass,
+};

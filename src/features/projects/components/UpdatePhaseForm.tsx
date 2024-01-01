@@ -17,7 +17,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { useUpdateProjectPhaseMutation } from "../projectsApiSlice";
 import { useToast } from "@/components/ui/use-toast";
-import { calendarClass } from "@/lib/primeTailwind";
+// import { calendarClass } from "@/lib/primeTailwind";
 import { Calendar } from "primereact/calendar";
 import {
   Select,
@@ -188,7 +188,7 @@ const UpdatePhaseForm: React.FC<ProjectFormProps> = ({
                     <FormLabel>Phase Start Date</FormLabel>
                     <FormControl>
                       <Calendar
-                        pt={calendarClass}
+                        // pt={calendarClass}
                         value={field.value}
                         onChange={(e) => field.onChange(e.value)}
                         dateFormat="dd/mm/yy"
@@ -205,7 +205,7 @@ const UpdatePhaseForm: React.FC<ProjectFormProps> = ({
                     <FormLabel>Phase Estimated End Date</FormLabel>
                     <FormControl>
                       <Calendar
-                        pt={calendarClass}
+                        // pt={calendarClass}
                         value={field.value}
                         onChange={(e) => field.onChange(e.value)}
                         dateFormat="dd/mm/yy"

@@ -52,7 +52,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 // import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "primereact/calendar";
-import { calendarClass } from "@/lib/primeTailwind";
+// import { calendarClass } from "@/lib/primeTailwind";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "@/features/auth/authSlice";
 import { BlockNoteEditor } from "@blocknote/core";
@@ -595,7 +595,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
                   <FormLabel>Task Start Date</FormLabel>
                   <FormControl>
                     <Calendar
-                      pt={calendarClass}
+                      // pt={calendarClass}
                       value={field.value ? new Date(field.value) : null}
                       onChange={(e) => field.onChange(e.value)}
                       dateFormat="dd/mm/yy"
@@ -612,7 +612,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
                   <FormLabel>Task Estimated due Date</FormLabel>
                   <FormControl>
                     <Calendar
-                      pt={calendarClass}
+                      // pt={calendarClass}
                       value={field.value ? new Date(field.value) : null}
                       onChange={(e) => field.onChange(e.value)}
                       dateFormat="dd/mm/yy"
