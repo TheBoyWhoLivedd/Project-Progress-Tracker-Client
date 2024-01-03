@@ -4,33 +4,30 @@ import { JwtPayload, jwtDecode } from "jwt-decode";
 
 interface CustomJwtPayload extends JwtPayload {
   UserInfo: {
-    username: string;
+    userName: string;
     isAdmin: boolean;
   };
 }
+
 const useAuth = () => {
   const token = useSelector(selectCurrentToken);
-
-  let isManager = false;
   let isAdmin = false;
   let status = "Employee";
+  let userName = "";
 
   if (token) {
-    // console.log("Token to Decode", token);
-    // console.log("Token type:", typeof token);
     const decoded = jwtDecode<CustomJwtPayload>(token);
+    console.log("Decoded", decoded);
 
-    const { username, isAdmin: hasAdminRights } = decoded.UserInfo;
+    userName = decoded.UserInfo.userName;
+    isAdmin = decoded.UserInfo.isAdmin;
 
-    isManager = hasAdminRights;
-    isAdmin = hasAdminRights;
+    status = isAdmin ? "Admin" : "Employee";
 
-    if (isManager) status = "Manager";
-    if (isAdmin) status = "Admin";
-
-    return { username, status, isManager, isAdmin };
+    return { userName, status, isAdmin };
   }
 
-  return { username: "", isManager, isAdmin, status };
+  return { userName, isAdmin, status };
 };
+
 export default useAuth;

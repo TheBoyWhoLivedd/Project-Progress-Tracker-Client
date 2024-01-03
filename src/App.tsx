@@ -1,4 +1,3 @@
-import "./index.css";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Login from "./features/auth/Login";
@@ -10,7 +9,7 @@ import EditUser from "./features/users/EditUser";
 import Prefetch from "./features/auth/Prefetch";
 import PersistLogin from "./features/auth/PersistLogin";
 import RequireAuth from "./features/auth/RequireAuth";
-// import { ROLES } from "./config/roles";
+import { ROLES } from "./config/roles";
 import useTitle from "./hooks/useTitile";
 import DepartmentsList from "./features/departments/DepartmentsList";
 import EditDepartment from "./features/departments/EditDepartment";
@@ -38,14 +37,28 @@ function App() {
           <Route index element={<Login />} />
           {/* protected routes */}
           <Route element={<PersistLogin />}>
-            <Route element={<RequireAuth />}>
+            <Route
+              element={
+                <RequireAuth allowedRoles={[ROLES.Admin, ROLES.Employee]} />
+              }
+            >
               <Route element={<Prefetch />}>
                 <Route path="dash" element={<DashLayout />}>
                   <Route index element={<Welcome />} />
-                  {/* <Route path="notes">
-                    <Route index element={<NotesList />} />
-                  </Route> */}
-                  <Route element={<RequireAuth />}>
+                  <Route path="projects">
+                    <Route index element={<ProjectsList />} />
+                    <Route path=":id" element={<EditProject />} />
+                    <Route path=":id/update-phase" element={<UpdatePhase />} />
+                    <Route path=":id/gantt" element={<GanttChart />} />
+                    <Route path="new" element={<AddProject />} />
+                    <Route path=":projectId/tasks" element={<TasksList />} />
+                    <Route path=":projectId/tasks/new" element={<AddTask />} />
+                    <Route
+                      path=":projectId/tasks/:taskId"
+                      element={<EditTask />}
+                    />
+                  </Route>
+                  <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
                     <Route path="users">
                       <Route index element={<UsersList />} />
                       <Route path=":id" element={<EditUser />} />
@@ -65,28 +78,6 @@ function App() {
                       <Route
                         path="new"
                         element={<PhaseForm initialData={null} />}
-                      />
-                    </Route>
-                    <Route path="projects">
-                      <Route index element={<ProjectsList />} />
-                      <Route path=":id" element={<EditProject />} />
-                      <Route
-                        path=":id/update-phase"
-                        element={<UpdatePhase />}
-                      />
-                      <Route
-                        path=":id/gantt"
-                        element={<GanttChart />}
-                      />
-                      <Route path="new" element={<AddProject />} />
-                      <Route path=":projectId/tasks" element={<TasksList />} />
-                      <Route
-                        path=":projectId/tasks/new"
-                        element={<AddTask />}
-                      />
-                      <Route
-                        path=":projectId/tasks/:taskId"
-                        element={<EditTask />}
                       />
                     </Route>
                   </Route>

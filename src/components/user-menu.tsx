@@ -14,7 +14,7 @@ import { useSendLogoutMutation } from "@/features/auth/authApiSlice";
 import useAuth from "@/hooks/useAuth";
 
 export function UserMenu() {
-  const { username, status } = useAuth();
+  const { userName, status } = useAuth();
   const navigate = useNavigate();
 
   const [sendLogout] = useSendLogoutMutation();
@@ -43,7 +43,7 @@ export function UserMenu() {
             <AvatarFallback delayMs={600}>CN</AvatarFallback>
           </Avatar>
           <div className="flex flex-col justify-start">
-            <span className="font-medium">{username}</span>
+            <span className="font-medium">{userName}</span>
             <span className="font-semibold">{status}</span>
           </div>
         </Button>

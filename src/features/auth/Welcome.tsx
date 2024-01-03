@@ -1,7 +1,7 @@
 import useAuth from "@/hooks/useAuth";
 
 const Welcome = () => {
-  const { username } = useAuth();
+  const { userName } = useAuth();
 
   const date = new Date();
   const today = new Intl.DateTimeFormat("en-US", {
@@ -13,7 +13,7 @@ const Welcome = () => {
     <section className="welcome">
       <p>{today}</p>
 
-      <h1>Welcome {username}!</h1>
+      <h1>Welcome {userName}!</h1>
     </section>
   );
 

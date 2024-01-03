@@ -29,7 +29,7 @@ import useAuth from "@/hooks/useAuth";
 export const SidebarRoutes = () => {
   const { status } = useAuth();
   const isAdmin = status === "Admin";
-  const userRole = status;
+
   // const navigate = useNavigate();
   const { pathname } = useLocation();
   type RouteType = {
@@ -114,6 +114,17 @@ export const SidebarRoutes = () => {
         },
       ],
     },
+  ];
+
+  const commonRoutes: RouteType[] = [
+    {
+      title: "Dashboard",
+      label: "Dashboard",
+      href: "/dash",
+      isTitle: false,
+      icon: <ClipboardIcon />,
+    },
+
     {
       title: "Projects",
       label: "Projects",
@@ -136,28 +147,6 @@ export const SidebarRoutes = () => {
         },
       ],
     },
-  ];
-
-  const commonRoutes: RouteType[] = [
-    {
-      title: "Dashboard",
-      label: "Dashboard",
-      href: "/dash",
-      isTitle: false,
-      icon: <ClipboardIcon />,
-    },
-
-    ...(userRole !== "Admin"
-      ? [
-          {
-            title: "Leave Approval",
-            label: "Leave Approval",
-            href: "/dashboard/leave-approval",
-            isTitle: false,
-            icon: <ClipboardIcon />,
-          },
-        ]
-      : []),
   ];
 
   const routes = isAdmin ? [...commonRoutes, ...adminRoutes] : commonRoutes;
