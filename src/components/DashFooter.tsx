@@ -7,7 +7,7 @@ const DashFooter = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const { username, status } = useAuth();
+  const { userName, status } = useAuth();
 
   const onGoHomeClicked = () => navigate("/dash");
 
@@ -28,7 +28,7 @@ const DashFooter = () => {
   return (
     <footer className="sticky bottom-0 z-10 bg-background p-2 border-t border-border flex flex-row gap-4 justify-start">
       {goHomeButton}
-      <p>Current User: {username}</p>
+      <p>Current User: {userName}</p>
       <p>Status: {status}</p>
     </footer>
   );
