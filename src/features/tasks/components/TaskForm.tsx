@@ -173,7 +173,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
   const theme = useResolvedTheme();
 
   const [open, setOpen] = useState(false);
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
 
   // Define the initial content for the editor
@@ -300,8 +300,10 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
   };
 
   const onSubmit = async (data: TaskFormValues) => {
+
     console.log(data);
     if (!initialData) {
+      setLoading(true)
       try {
         const response = await addNewTask({
           projectId,
@@ -323,9 +325,12 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
             description: `Error: ${errorResponse.data.message}`,
           });
         }
+      }finally{
+        setLoading(false)
       }
     } else {
       // console.log("Data for edit", data);
+      setLoading(true)
       try {
         const updateResponse = await updateTask({
           projectId: projectId,
@@ -340,6 +345,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
         navigate(`/dash/projects/${projectId}/tasks`);
       } catch (updateError) {
         // console.log("Update Error", updateError);
+
         if (
           typeof updateError === "object" &&
           updateError !== null &&
@@ -352,6 +358,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
             description: `Error: ${errorResponse.data.message}`,
           });
         }
+      }finally{
+        setLoading(false)
       }
     }
   };
@@ -705,7 +713,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
               {uploading && <div>Uploading files...</div>}
             </div>
           </div>
-          <Button disabled={loading} className="ml-auto" type="submit">
+          <Button disabled={loading||uploading} className="ml-auto" type="submit">
             {action}
           </Button>
         </form>

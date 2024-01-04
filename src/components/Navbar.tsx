@@ -10,9 +10,9 @@ export const Navbar = () => {
     <div className="p-4 border-b h-full flex items-center shadow-sm backdrop-blur">
       <MobileSidebar />
       <div>
-        <Link to="/dash" className="flex items-center gap-2 pl-1 md:pl-10">
+        <Link to="/dash/projects" className="flex items-center gap-2 pl-1 md:pl-10">
           {/* <CompanyIcon /> */}
-          <span className="text-2xl font-bold tracking-tight">DASHBOARD</span>
+          <span className="text-2xl font-bold tracking-tight">JENGA</span>
         </Link>
       </div>
       <div className=" ml-auto flex gap-3  items-center">

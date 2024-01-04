@@ -94,6 +94,9 @@
 .dark-mode ._34SS0 {
   @apply bg-gray-800;
 }
+.dark-mode ._3ZbQT div {
+  background-color: inherit;
+}
 
 .dark-mode ._3eULf {
   @apply bg-gray-800;

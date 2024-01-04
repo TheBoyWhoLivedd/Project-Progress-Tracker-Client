@@ -74,17 +74,17 @@ export const theme = {
       "accordion-up": "accordion-up 0.2s ease-out",
      
     },
-    transitionDuration: {
-      '750': '750ms',
-      '760': '760ms',
-      "770": "770ms",
-      "780": "780ms",
-      "790": "790ms",
-      "800": "800ms",
-      "810": "810ms",
-      "820": "820ms",
-      "830": "830ms",
-    }
+    // transitionDuration: {
+    //   '750': '750ms',
+    //   '760': '760ms',
+    //   "770": "770ms",
+    //   "780": "780ms",
+    //   "790": "790ms",
+    //   "800": "800ms",
+    //   "810": "810ms",
+    //   "820": "820ms",
+    //   "830": "830ms",
+    // }
   },
 };
 export const plugins = [require("tailwindcss-animate")];
