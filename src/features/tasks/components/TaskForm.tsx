@@ -300,10 +300,9 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
   };
 
   const onSubmit = async (data: TaskFormValues) => {
-
     console.log(data);
     if (!initialData) {
-      setLoading(true)
+      setLoading(true);
       try {
         const response = await addNewTask({
           projectId,
@@ -325,12 +324,12 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
             description: `Error: ${errorResponse.data.message}`,
           });
         }
-      }finally{
-        setLoading(false)
+      } finally {
+        setLoading(false);
       }
     } else {
       // console.log("Data for edit", data);
-      setLoading(true)
+      setLoading(true);
       try {
         const updateResponse = await updateTask({
           projectId: projectId,
@@ -358,13 +357,14 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
             description: `Error: ${errorResponse.data.message}`,
           });
         }
-      }finally{
-        setLoading(false)
+      } finally {
+        setLoading(false);
       }
     }
   };
 
   const onDelete = async () => {
+    setLoading(true);
     try {
       const deleteResponse = await deleteTask({
         projectId: projectId,
@@ -387,6 +387,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
           description: `Error: ${errorResponse.data.message}`,
         });
       }
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -713,7 +715,11 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
               {uploading && <div>Uploading files...</div>}
             </div>
           </div>
-          <Button disabled={loading||uploading} className="ml-auto" type="submit">
+          <Button
+            disabled={loading || uploading}
+            className="ml-auto"
+            type="submit"
+          >
             {action}
           </Button>
         </form>

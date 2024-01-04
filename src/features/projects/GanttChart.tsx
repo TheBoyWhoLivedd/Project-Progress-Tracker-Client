@@ -56,7 +56,7 @@ const GanttChart = () => {
   });
 
   return (
-    <div className="min-w-full">
+    <div className="">
       <div className="flex flex-col gap-2 items-center mb-2">
         <h3>Gantt Chart for {project.projectName}</h3>
         <Tabs defaultValue="day" className="flex">

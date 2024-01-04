@@ -85,7 +85,10 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
         // body: { id },
       }),
-      invalidatesTags: (_result, _error, arg) => [{ type: "Task", id: arg.id }],
+      invalidatesTags: (_result, _error, arg) => [
+        { type: "Task", id: arg.id },
+        { type: "Project", id: "LIST" },
+      ],
     }),
     // uploadFile: builder.mutation({
     //   query: (files) => {

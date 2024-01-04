@@ -38,9 +38,10 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onConfirm = async () => {
+    setLoading(true);
     try {
       const deleteResponse = await deleteTask({
         projectId: projectId,
@@ -56,6 +57,8 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 

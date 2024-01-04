@@ -9,6 +9,7 @@ const ProjectsList = () => {
     isSuccess: isSuccessProjects,
   } = useGetProjectsQuery(undefined, {
     pollingInterval: 60000,
+    refetchOnMountOrArgChange: true,
   });
 
   console.log("Projects", projects);
@@ -36,7 +37,7 @@ const ProjectsList = () => {
       console.log("Project", project);
       return {
         ...project,
-        currentPhaseName, 
+        currentPhaseName,
       };
     });
 
