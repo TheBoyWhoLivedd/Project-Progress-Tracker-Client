@@ -1,5 +1,6 @@
 import { Phase, useGetPhasesQuery } from "../phases/phasesApiSlice";
 import { ProjectsClient } from "./components/client";
+import ProjectsLoadingSkeleton from "./components/skeletons/ProjectListSkeleton";
 import { useGetProjectsQuery } from "./projectsApiSlice";
 
 const ProjectsList = () => {
@@ -20,7 +21,9 @@ const ProjectsList = () => {
     isSuccess: isSuccessPhases,
   } = useGetPhasesQuery();
 
-  if (isLoadingProjects || isLoadingPhases) return <p>Loading...</p>;
+  if (isLoadingProjects || isLoadingPhases) {
+    return <ProjectsLoadingSkeleton />;
+  }
 
   if (isSuccessProjects && isSuccessPhases) {
     // Create a map of phase IDs to phase names

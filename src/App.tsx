@@ -28,7 +28,7 @@ import UpdatePhase from "./features/projects/UpdatePhase";
 import GanttChart from "./features/projects/GanttChart";
 
 function App() {
-  useTitle("Joseph Mukasa's Auto Repair");
+  useTitle("URA - JENGA");
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Routes>
