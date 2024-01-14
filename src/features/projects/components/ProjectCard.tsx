@@ -6,6 +6,8 @@ import {
   CardContent,
   Card,
 } from "@/components/ui/card";
+import useAuth from "@/hooks/useAuth";
+import useIsTeamLead from "@/hooks/useIsTeamLead";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -50,6 +52,9 @@ function CircularProgress({ completionRate }: { completionRate: number }) {
 }
 
 export default function ProjectCard({ project }: { project: Project }) {
+  const { userId } = useAuth();
+  const isLead = useIsTeamLead(userId, project._id);
+  // console.log(`is Lead in ${project.projectName} is ${isLead}`)
   const navigate = useNavigate();
   const handleEditClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -85,14 +90,16 @@ export default function ProjectCard({ project }: { project: Project }) {
         onClick={() => navigate(`/dash/projects/${project.id}/tasks`)}
         className="m-4 cursor-pointer hover:shadow-lg transition duration-200 ease-in-out bg-white dark:bg-gray-800 text-black dark:text-white border border-gray-200 dark:border-gray-800 rounded-lg group relative min-h-[300px] flex flex-col dark:hover:opacity-80"
       >
-        <Button
-          onClick={handleEditClick}
-          size="icon"
-          variant="ghost"
-          className="absolute top-0 right-0 m-4 opacity-0 group-hover:opacity-100 md:opacity-100"
-        >
-          <Pencil2Icon className="w-6 h-6" />
-        </Button>
+        {isLead && (
+          <Button
+            onClick={handleEditClick}
+            size="icon"
+            variant="ghost"
+            className="absolute top-0 right-0 m-4 opacity-0 group-hover:opacity-100 md:opacity-100"
+          >
+            <Pencil2Icon className="w-6 h-6" />
+          </Button>
+        )}
         <CardHeader className="bg-blue-200 dark:bg-blue-900">
           <div className="flex justify-between items-center p-4">
             <div className="">

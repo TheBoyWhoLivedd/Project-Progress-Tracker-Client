@@ -5,13 +5,17 @@ import { TaskColumn, TaskColumns } from "./columns";
 import { Separator } from "@/components/ui/separator";
 import { BarChartIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useNavigate, useParams } from "react-router-dom";
+import useIsTeamLead from "@/hooks/useIsTeamLead";
+import useAuth from "@/hooks/useAuth";
 interface TasksClientProps {
   data: TaskColumn[];
 }
 
 export const TasksClient: React.FC<TasksClientProps> = ({ data }) => {
   const navigate = useNavigate();
-  const { projectId } = useParams();
+  const { projectId = "" } = useParams();
+  const { userId } = useAuth();
+  const isLead = useIsTeamLead(userId, projectId);
 
   return (
     <>
@@ -27,11 +31,13 @@ export const TasksClient: React.FC<TasksClientProps> = ({ data }) => {
           >
             <BarChartIcon className="mr-2 h-4 w-4" /> View Gantt
           </Button>
-          <Button
-            onClick={() => navigate(`/dash/projects/${projectId}/tasks/new`)}
-          >
-            <PlusIcon className="mr-2 h-4 w-4" /> Add New
-          </Button>
+          {isLead && (
+            <Button
+              onClick={() => navigate(`/dash/projects/${projectId}/tasks/new`)}
+            >
+              <PlusIcon className="mr-2 h-4 w-4" /> Add New
+            </Button>
+          )}
         </div>
       </div>
       <Separator />

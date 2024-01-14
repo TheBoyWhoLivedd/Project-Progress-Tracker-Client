@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
+
 const addProjectFormSchema = z.object({
   projectName: z.string().min(1, {
     message: "Name must be atleast 1 character",
@@ -104,6 +105,10 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
   team,
   phases,
 }) => {
+
+
+
+
   const [
     addNewProject,
     // { isLoading, isSuccess, isError, error }

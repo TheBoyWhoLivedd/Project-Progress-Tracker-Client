@@ -64,6 +64,8 @@ import {
 } from "@blocknote/react";
 import "@blocknote/core/style.css";
 import { useResolvedTheme } from "@/components/theme-provider";
+import useAuth from "@/hooks/useAuth";
+import useIsTeamLead from "@/hooks/useIsTeamLead";
 
 const formSchema = z.object({
   taskName: z.string().min(1, {
@@ -165,7 +167,9 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
     // { isSuccess: isDeleteSuccess, isError: isDeleteError, error: deleteError },
   ] = useDeleteTaskMutation();
 
-  const { projectId, taskId } = useParams();
+  const { projectId = "", taskId } = useParams();
+  const { userId } = useAuth();
+  const isLead = useIsTeamLead(userId, projectId);
 
   // console.log(projectId,taskId);
   const navigate = useNavigate();
@@ -401,7 +405,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
       />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
-        {initialData && (
+        {initialData && isLead && (
           <Button
             disabled={loading}
             variant="destructive"

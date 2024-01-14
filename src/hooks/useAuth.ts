@@ -4,6 +4,7 @@ import { JwtPayload, jwtDecode } from "jwt-decode";
 
 interface CustomJwtPayload extends JwtPayload {
   UserInfo: {
+    userId: string;
     userName: string;
     isAdmin: boolean;
   };
@@ -14,6 +15,7 @@ const useAuth = () => {
   let isAdmin = false;
   let status = "Employee";
   let userName = "";
+  let userId = "";
 
   if (token) {
     const decoded = jwtDecode<CustomJwtPayload>(token);
@@ -21,13 +23,14 @@ const useAuth = () => {
 
     userName = decoded.UserInfo.userName;
     isAdmin = decoded.UserInfo.isAdmin;
+    userId = decoded.UserInfo.userId;
 
     status = isAdmin ? "Admin" : "Employee";
 
-    return { userName, status, isAdmin };
+    return { userId, userName, status, isAdmin };
   }
 
-  return { userName, isAdmin, status };
+  return { userId, userName, isAdmin, status };
 };
 
 export default useAuth;
