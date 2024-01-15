@@ -34,7 +34,7 @@ const EditProject = () => {
     startDate: new Date(project.startDate),
     estimatedEndDate: new Date(project.estimatedEndDate),
   };
-  console.log("Formatted Projects", formattedProjects);
+  // console.log("Formatted Projects", formattedProjects);
   const content = (
     <ProjectForm
       initialData={formattedProjects}

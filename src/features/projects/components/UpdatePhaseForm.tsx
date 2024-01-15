@@ -26,12 +26,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { MultiSelect } from "primereact/multiselect";
 
 const updatePhaseFormSchema = z.object({
   projectName: z.string().min(1, {
     message: "Name must be atleast 1 character",
   }),
   currentPhase: z.string().min(1),
+  phaseLead: z
+    .array(z.string().min(1))
+    .min(1, "There must be at least one team lead"),
   phaseStartDate: z.date({ required_error: "Please select a Start Date." }),
   phaseEstimatedEndDate: z.date({
     required_error: "Please select an estimated end Date.",
@@ -49,13 +53,14 @@ export type Phase = {
   name: string;
 };
 
-interface ProjectFormProps {
+interface UpdatePhaseFormProps {
   initialData: Project | null;
+  team: Team[];
   phases: Phase[];
 }
-const UpdatePhaseForm: React.FC<ProjectFormProps> = ({
+const UpdatePhaseForm: React.FC<UpdatePhaseFormProps> = ({
   initialData,
-
+  team,
   phases,
 }) => {
   const [
@@ -154,7 +159,10 @@ const UpdatePhaseForm: React.FC<ProjectFormProps> = ({
                     <FormLabel>Phase Status</FormLabel>
                     <Select
                       disabled={false}
-                      onValueChange={field.onChange}
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        // form.setValue("phaseLead", []);
+                      }}
                       value={field.value}
                       defaultValue={field.value}
                     >
@@ -176,6 +184,33 @@ const UpdatePhaseForm: React.FC<ProjectFormProps> = ({
                         ))}
                       </SelectContent>
                     </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="phaseLead"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Next Phase Lead</FormLabel>
+                    <FormControl>
+                      <MultiSelect
+                        display="chip"
+                        // pt={multiSelectClass}
+                        value={field.value}
+                        options={team.map((t) => ({
+                          label: t.name,
+                          value: t.id,
+                        }))}
+                        onChange={(e) => field.onChange(e.value)}
+                        optionLabel="label"
+                        filter
+                        placeholder="Select Phase Lead"
+                        // maxSelectedLabels={3}
+                        // className="w-full"
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

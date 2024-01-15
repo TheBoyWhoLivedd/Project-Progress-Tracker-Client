@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useGetProjectsQuery } from "./projectsApiSlice";
 import { useGetPhasesQuery } from "../phases/phasesApiSlice";
 import UpdatePhaseForm from "./components/UpdatePhaseForm";
+import { useGetUsersQuery } from "../users/usersApiSlice";
 
 const UpdatePhase = () => {
   const { id } = useParams<string>();
@@ -12,12 +13,17 @@ const UpdatePhase = () => {
     }),
   });
 
+  const { data: users } = useGetUsersQuery();
   const { data: phases } = useGetPhasesQuery();
 
   // console.log("Edit Project", project);
 
-  if (!project || !phases) return <p>Loading...</p>;
+  if (!project || !users || !phases) return <p>Loading...</p>;
 
+  const formattedUsers = users.ids.map((id) => ({
+    id,
+    name: users.entities[id].name,
+  }));
   const formattedPhases = phases.ids.map((id) => ({
     id,
     name: phases.entities[id].phaseName,
@@ -33,6 +39,7 @@ const UpdatePhase = () => {
     <UpdatePhaseForm
       initialData={formattedProjects}
       phases={formattedPhases}
+      team={formattedUsers}
     />
   );
 
