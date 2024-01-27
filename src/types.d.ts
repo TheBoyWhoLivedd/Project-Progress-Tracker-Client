@@ -30,12 +30,12 @@ declare interface Project {
   projectCompletionRate: number;
 }
 
-
 declare interface Task {
   _id: string;
   id: string;
   taskName: string;
   associatedPhase: string;
+  associatedProject: string;
   assignedTo: string;
   taskWeight: number;
   status: "Backlog" | "To Do" | "In Progress" | "Done" | "Cancelled";
@@ -43,4 +43,8 @@ declare interface Task {
   startDate: Date;
   dueDate: Date;
   taskDescription: string;
+  remarks: {
+    text: string;
+    createdAt: Date;
+  }[];
 }

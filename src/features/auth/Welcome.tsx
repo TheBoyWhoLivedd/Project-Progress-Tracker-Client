@@ -1,4 +1,5 @@
 import useAuth from "@/hooks/useAuth";
+import ProjectsList from "../projects/ProjectsList";
 
 const Welcome = () => {
   const { userName } = useAuth();
@@ -10,11 +11,14 @@ const Welcome = () => {
   }).format(date);
 
   const content = (
-    <section className="welcome">
-      <p>{today}</p>
+    <>
+      <section className="welcome">
+        <p>{today}</p>
 
-      <h1>Welcome {userName}!</h1>
-    </section>
+        <h1>Welcome {userName}!</h1>
+      </section>
+      <ProjectsList />
+    </>
   );
 
   return content;

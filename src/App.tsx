@@ -18,7 +18,6 @@ import AddUser from "./features/users/AddUser";
 import PhasesList from "./features/phases/PhasesList";
 import EditPhase from "./features/phases/EditPhase";
 import PhaseForm from "./features/phases/components/PhaseForm";
-import ProjectsList from "./features/projects/ProjectsList";
 import EditProject from "./features/projects/EditProject";
 import AddProject from "./features/projects/AddProject";
 import TasksList from "./features/tasks/TasksList";
@@ -26,6 +25,8 @@ import AddTask from "./features/tasks/AddTask";
 import EditTask from "./features/tasks/EditTask";
 import UpdatePhase from "./features/projects/UpdatePhase";
 import GanttChart from "./features/projects/GanttChart";
+
+import ProjectsCards from "./features/projects/ProjectsCards";
 
 function App() {
   useTitle("URA - JENGA");
@@ -46,7 +47,7 @@ function App() {
                 <Route path="dash" element={<DashLayout />}>
                   <Route index element={<Welcome />} />
                   <Route path="projects">
-                    <Route index element={<ProjectsList />} />
+                    <Route index element={<ProjectsCards />} />
                     <Route path=":id" element={<EditProject />} />
                     <Route path=":id/update-phase" element={<UpdatePhase />} />
                     <Route path=":id/gantt" element={<GanttChart />} />

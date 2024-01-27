@@ -66,6 +66,7 @@ import "@blocknote/core/style.css";
 import { useResolvedTheme } from "@/components/theme-provider";
 import useAuth from "@/hooks/useAuth";
 import useIsTeamLead from "@/hooks/useIsTeamLead";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   taskName: z.string().min(1, {
@@ -167,6 +168,16 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
     // { isSuccess: isDeleteSuccess, isError: isDeleteError, error: deleteError },
   ] = useDeleteTaskMutation();
 
+  const getLatestRemark = (remarks?: { text: string; createdAt: Date }[]) => {
+    if (remarks && remarks.length > 0) {
+      const sortedRemarks = remarks
+        .slice()
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      return sortedRemarks[0].text;
+    }
+    return "";
+  };
+
   const { projectId = "", taskId } = useParams();
   const { userId } = useAuth();
   const isLead = useIsTeamLead(userId, projectId);
@@ -179,6 +190,11 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [remark, setRemark] = useState(getLatestRemark(initialData?.remarks));
+  const [remarkError, setRemarkError] = useState(false);
+  const [showRemarkInput, setShowRemarkInput] = useState(
+    initialData?.status === "Done"
+  );
 
   // Define the initial content for the editor
   const initialEditorContent = initialData?.taskDescription
@@ -304,13 +320,24 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
   };
 
   const onSubmit = async (data: TaskFormValues) => {
-    console.log(data);
+    if (data.status === "Done" && !remark.trim()) {
+      setRemarkError(true);
+      return;
+    } else {
+      setRemarkError(false);
+    }
+
+    const taskData = {
+      ...data,
+      ...(showRemarkInput && { remark }), // Include the remark only if it's visible
+    };
+    console.log(taskData);
     if (!initialData) {
       setLoading(true);
       try {
         const response = await addNewTask({
           projectId,
-          ...data,
+          ...taskData,
         }).unwrap();
         // console.log("response in submit", response);
         toast({
@@ -338,7 +365,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
         const updateResponse = await updateTask({
           projectId: projectId,
           taskId: taskId,
-          ...data,
+          ...taskData,
         }).unwrap();
         // console.log("updateResponse in submit", updateResponse);
         toast({
@@ -480,7 +507,10 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
                   <FormLabel>Task Status</FormLabel>
                   <Select
                     disabled={false}
-                    onValueChange={field.onChange}
+                    onValueChange={(newValue) => {
+                      field.onChange(newValue);
+                      setShowRemarkInput(newValue === "Done");
+                    }}
                     value={field.value}
                     defaultValue={field.value}
                   >
@@ -635,6 +665,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
                 </FormItem>
               )}
             />
+
             <div className="col-span-3">
               <FormField
                 control={form.control}
@@ -654,6 +685,27 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
                 )}
               />
             </div>
+            {showRemarkInput && (
+              <div className="col-span-3">
+                <FormItem>
+                  <FormLabel>Remark</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      value={remark}
+                      onChange={(e) => setRemark(e.target.value)}
+                      placeholder="Enter a remark"
+                      required={showRemarkInput}
+                      className={remarkError ? "border-red-500" : ""}
+                    />
+                  </FormControl>
+                </FormItem>
+                {remarkError && (
+                  <p className="text-red-500 text-sm mt-1">
+                    Remark is required when status is "Done"
+                  </p>
+                )}
+              </div>
+            )}
             <div className="col-span-3">
               <FormField
                 control={form.control}
