@@ -35,7 +35,6 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-
 const addProjectFormSchema = z.object({
   projectName: z.string().min(1, {
     message: "Name must be atleast 1 character",
@@ -105,10 +104,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
   team,
   phases,
 }) => {
-
-
-
-
   const [
     addNewProject,
     // { isLoading, isSuccess, isError, error }
@@ -144,7 +139,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
     : {
         projectName: "",
         projectDescription: "",
-        currentPhase: "",
+        currentPhase: "Planning",
       };
 
   // Dynamically select schema based on initialData
@@ -246,22 +241,24 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
         <Heading title={title} description={description} />
         {initialData && (
           <div className="flex gap-2">
-          <Button
-            disabled={loading}
-            variant="secondary"
-            size="sm"
-            onClick={() => navigate(`/dash/projects/${params.id}/update-phase`)}
-          >
-            Update Phase
-          </Button>
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="sm"
-            onClick={() => setOpen(true)}
-          >
-            <TrashIcon className="h-4 w-4" />
-          </Button>
+            <Button
+              disabled={loading}
+              variant="secondary"
+              size="sm"
+              onClick={() =>
+                navigate(`/dash/projects/${params.id}/update-phase`)
+              }
+            >
+              Update Phase
+            </Button>
+            <Button
+              disabled={loading}
+              variant="destructive"
+              size="sm"
+              onClick={() => setOpen(true)}
+            >
+              <TrashIcon className="h-4 w-4" />
+            </Button>
           </div>
         )}
       </div>
@@ -351,9 +348,9 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
                   name="currentPhase"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phase Status</FormLabel>
+                      <FormLabel>Phase </FormLabel>
                       <Select
-                        disabled={false}
+                        disabled={true}
                         onValueChange={field.onChange}
                         value={field.value}
                         defaultValue={field.value}

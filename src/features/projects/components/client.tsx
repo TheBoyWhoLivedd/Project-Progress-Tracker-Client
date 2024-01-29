@@ -11,32 +11,41 @@ interface ProjectsClientProps {
 }
 
 export const ProjectsClient: React.FC<ProjectsClientProps> = ({ data }) => {
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3500";
   const token = useSelector(selectCurrentToken);
   const downloadReport = () => {
-    // fetch("http://localhost:3500/generate-report")
-    //   .then((response) => response.blob())
-    //   .then((blob) => {
-    //     // Create a link element, use it to download the file and remove it
-    //     const url = window.URL.createObjectURL(blob);
-    //     const a = document.createElement("a");
-    //     a.href = url;
-    //     a.download = "report.xlsx";
-    //     document.body.appendChild(a);
-    //     a.click();
-    //     a.remove();
-    //   })
-    //   .catch(() => alert("Could not generate report"));
-
-    fetch("http://localhost:3500/reports/generate-report", {
+    fetch(`${apiUrl}/reports/generate-report`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+      .then((response) => response.blob())
+      .then((blob) => {
+        // console.log("Received blob size:", blob.size);
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "report.xlsx";
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => a.remove(), 100); // Remove the link after a short delay
+      })
+      .catch((error) => {
+        console.error("Error generating report", error);
+        alert("Could not generate report");
       });
+
+    //   fetch("http://localhost:3500/reports/generate-report", {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   })
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       console.log(data);
+    //     });
   };
+
   return (
     <>
       <div className="flex items-center justify-between">

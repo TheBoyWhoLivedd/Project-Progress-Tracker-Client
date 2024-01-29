@@ -278,8 +278,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, team, phases }) => {
       selectedFiles.forEach((file) => {
         formData.append("file", file);
       });
-
-      const response = await fetch("http://localhost:3500/upload", {
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3500";
+      const response = await fetch(`${apiUrl}/upload`, {
         method: "POST",
         body: formData,
         headers: {
