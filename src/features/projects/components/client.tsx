@@ -21,7 +21,7 @@ export const ProjectsClient: React.FC<ProjectsClientProps> = ({ data }) => {
     })
       .then((response) => response.blob())
       .then((blob) => {
-        // console.log("Received blob size:", blob.size);
+        console.log("Received blob size:", blob.size);
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
