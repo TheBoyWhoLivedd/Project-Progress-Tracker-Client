@@ -10,7 +10,8 @@ import { setCredentials } from "@/features/auth/authSlice";
 interface ApiError {
   message: string;
 }
-
+// "https://ura-project-manager-api.onrender.com"
+// "https://ura-project-manager.hitajitech.site"
 const baseQuery = fetchBaseQuery({
   baseUrl:
     import.meta.env.VITE_ENV === "development"
