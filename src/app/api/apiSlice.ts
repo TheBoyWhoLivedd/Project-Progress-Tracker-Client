@@ -10,13 +10,11 @@ import { setCredentials } from "@/features/auth/authSlice";
 interface ApiError {
   message: string;
 }
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3500";
 // "https://ura-project-manager-api.onrender.com"
 // "https://ura-project-manager.hitajitech.site"
 const baseQuery = fetchBaseQuery({
-  baseUrl:
-    import.meta.env.VITE_ENV === "development"
-      ? "http://localhost:3500"
-      : "https://ura-project-manager-api.onrender.com",
+  baseUrl: apiUrl,
   validateStatus: (response, result) => {
     // console.log(response)
     // First, check if there's an error flag in the result
