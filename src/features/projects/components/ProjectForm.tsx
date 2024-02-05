@@ -134,13 +134,23 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
   const title = initialData ? "Edit Projects" : "Add Projects";
   const description = initialData ? "Edit a Project." : "Add a new Project";
   const action = initialData ? "Save changes" : "Create";
-  const defaultValues = initialData
-    ? initialData
-    : {
+  //Ensure that the planning phase is always selected when adding a new project
+  const planningPhaseId = useMemo(() => {
+    const planningPhase = phases.find((phase) => phase.name === "Planning");
+    return planningPhase ? planningPhase.id : "";
+  }, [phases]);
+
+  const defaultValues = useMemo(() => {
+    if (initialData) {
+      return initialData;
+    } else {
+      return {
         projectName: "",
         projectDescription: "",
-        currentPhase: "Planning",
+        currentPhase: planningPhaseId,
       };
+    }
+  }, [initialData, planningPhaseId]);
 
   // Dynamically select schema based on initialData
   const selectedFormSchema = useMemo(() => {
