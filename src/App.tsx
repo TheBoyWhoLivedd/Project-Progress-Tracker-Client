@@ -27,6 +27,8 @@ import UpdatePhase from "./features/projects/UpdatePhase";
 import GanttChart from "./features/projects/GanttChart";
 
 import ProjectsCards from "./features/projects/ProjectsCards";
+import ForgotPassword from "./features/auth/ForgotPassword";
+import ResetPassword from "./features/auth/ResetPassword";
 
 function App() {
   useTitle("URA - JENGA");
@@ -36,6 +38,11 @@ function App() {
         <Route path="/" element={<Layout />}>
           {/* public routes */}
           <Route index element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="/reset-password/:encryptedEmail"
+            element={<ResetPassword />}
+          />
           {/* protected routes */}
           <Route element={<PersistLogin />}>
             <Route
